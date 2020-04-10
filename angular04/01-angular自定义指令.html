@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div ng-controller="MyContrl">
+		{{a}}--{{obj|json}}
+		<input type="button" value="changeA" ng-click="changeA()">
+		<hr>
+		<my-direct b="a" obj="obj"></my-direct>
+		<!-- <div my-direct>这是div</div> -->
+		<!-- <div class="my-direct">这又是一个div</div> -->
+		<!-- 这注释 -->
+	</div>
+</body>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript">
+	var app = angular.module("myapp",[]);
+
+	app.controller("MyContrl",["$scope",function($scope){
+
+		$scope.a = 10;
+		$scope.obj = {
+			num:20
+		};
+
+		$scope.changeA = function(){
+			$scope.a++;
+		}
+
+	}])
+
+	app.directive("myDirect",[function(){
+
+		return {
+			scope: {
+				b: "=",
+				obj: "@"
+			},
+			restrict: "AEC",
+			templateUrl: "templates/mydirect.html",
+			link: function($scope,ele,attr){
+
+				$scope.changeB = function(){
+					$scope.b++;
+				}
+
+			}
+
+		}
+
+	}])
+
+</script>
+</html>

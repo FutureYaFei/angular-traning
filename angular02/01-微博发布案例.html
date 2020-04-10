@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.comment{
+			height: 150px;
+			width: 150px;
+		}
+	</style>
+</head>
+<body>
+	<div class="box" ng-controller="MyContrl as contrl">
+		<textarea class="comment" ng-model="contrl.txt"></textarea><span ng-style="contrl.getColor()">{{contrl.txt.length}}/100</span><br>
+		<input type="button" value="发布" ng-disabled="contrl.txt.length > 100"><input type="button" value="重置" ng-click="contrl.reset()" ng-disabled="contrl.txt.length <= 0">
+	</div>
+</body>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript">
+	
+	
+	var app = angular.module("myapp",[]);
+	app.controller("MyContrl",[function(){
+
+		this.txt = "";
+		this.getColor = function(){
+			let color = this.txt.length > 100 ? "red" : "black";
+			return {
+				color
+			}
+		}
+
+		this.reset = function(){
+			this.txt = "";
+		}
+
+	}])
+
+</script>
+</html>

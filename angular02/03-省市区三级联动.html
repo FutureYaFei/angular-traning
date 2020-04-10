@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div class="box" ng-controller="MyContrl as contrl">
+		{{contrl.getCitys().length}}
+		<select ng-model="contrl.province" ng-options="province.code as province.name for province in contrl.getCitys()"></select>
+		{{contrl.province}}
+		<select ng-if="contrl.province != 0" ng-model="contrl.city" ng-options="city.code as city.name for city in contrl.getCity()"></select>
+		{{contrl.city}}
+		<select ng-if="contrl.city != 0" ng-model="contrl.distribute" ng-options="distribute.code as distribute.name for distribute in contrl.getDistribute()"></select>
+		{{contrl.distribute}}
+
+		<hr>
+
+		收货地址: {{contrl.getProByCode()}}-{{contrl.getCityByCode()}}--{{contrl.getDisByCode()}}
+
+	</div>
+</body>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript">
+	
+	
+	var app = angular.module("myapp",[]);
+	app.controller("MyContrl",["MyService",function(MyService){
+		this.province = 0;
+		this.city = 0;
+		this.distribute = 0;
+		this.getCitys = function(){
+			return MyService.getCitys() == "" ? [] :  MyService.getCitys();
+		}
+
+		this.getProByCode = function(){
+			let proTemp = this.getCitys().filter(item=>{
+				return item.code == this.province;
+			});
+			return proTemp.length <= 0 ? "" : proTemp[0].name ;
+		}
+
+		this.getCityByCode = function(){
+			let cityTemp = this.getCity().filter(item=>{
+				return item.code == this.city;
+			});
+			return cityTemp.length <= 0 ? "" : cityTemp[0].name;
+		}
+
+		this.getDisByCode = function(){
+			let disTemp = this.getDistribute().filter(item=>{
+				return item.code == this.distribute;
+			});
+			return disTemp.length <= 0 ? "" : disTemp[0].name;
+		}
+
+		this.getCity = function(){
+			let proTemp = this.getCitys().filter(item=>{
+				return item.code == this.province;
+			});
+			return proTemp.length <= 0 ? [] : proTemp[0].city ;
+		}
+
+		this.getDistribute = function(){
+			let cityTemp = this.getCity().filter(item=>{
+				return item.code == this.city;
+			});
+			return cityTemp.length <= 0 ? [] : cityTemp[0].area;
+		}
+
+	}]);
+
+	app.service("MyService",["$http",function($http){
+
+		this.citys = "";
+		this.getCitys = function(){
+			return this.citys;
+		}
+
+		this.getFromServer = function(){
+			$http.get("./api/city_code.json").then(res=>{
+				this.citys = res.data;
+			})
+		}
+
+		this.getFromServer();
+		
+	}])
+
+</script>
+</html>

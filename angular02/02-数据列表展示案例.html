@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.box{
+			margin: 50px;
+		}
+		table,tr,td,th{
+			border: 1px gray solid;
+			border-collapse: collapse;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="box" ng-controller="StuContrl as contrl">
+		<table width="500">
+			<thead>
+				<tr>
+					<th style="cursor: pointer" ng-click="contrl.sort('stuid')">学号<span ng-if="contrl.sortAttr=='stuid'">{{contrl.asc?"↑":"↓"}}</span></th>
+					<th style="cursor: pointer" ng-click="contrl.sort('stuname')">姓名<span ng-if="contrl.sortAttr=='stuname'">{{contrl.asc?"↑":"↓"}}</span></th>
+					<th style="cursor: pointer" ng-click="contrl.sort('stuage')">年龄<span ng-if="contrl.sortAttr=='stuage'">{{contrl.asc?"↑":"↓"}}</span></th>
+					<th style="cursor: pointer">删除</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="student in contrl.students()">
+					<td>{{student.stuid}}</td>
+					<td>{{student.stuname}}</td>
+					<td>{{student.stuage}}</td>
+					<td>
+						<input type="button" value="delete" ng-click="contrl.delete(student.stuid)">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<hr>
+		<div class="add-stu">
+			<p>
+				姓名：<input type="text" ng-model="contrl.student.stuname">
+			</p>
+			<p>
+				年龄：<input type="text" ng-model="contrl.student.stuage">
+			</p>
+			<p>
+				<input type="button" value="添加学生信息" ng-click="contrl.add()">
+			</p>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript">
+	
+	
+	var app = angular.module("myapp",[]);
+	app.controller("StuContrl",["StuService",function(StuService){
+
+		this.student = {};
+		this.asc = true;
+		this.sortAttr = "stuid";
+
+		this.sort = function(attr){
+			this.asc = !this.asc;
+			this.sortAttr = attr;
+			StuService.sortStudents(this.asc,this.sortAttr);
+		}
+
+		this.students = function(){
+			return StuService.getStudents();
+		}
+
+		this.delete = function(stuid){
+			StuService.deleteStudent(stuid);
+		}
+
+		this.add = function(){
+			StuService.addStudent(this.student);
+			this.student = {};
+		}
+
+
+	}])
+
+	app.service("StuService",[function(){
+
+		this.students = [
+			{"stuid":1001,"stuname":"zs","stuage":20},
+			{"stuid":1002,"stuname":"ls","stuage":21},
+			{"stuid":1003,"stuname":"ww","stuage":22},
+			{"stuid":1004,"stuname":"zl","stuage":23},
+			{"stuid":1005,"stuname":"z1","stuage":24},
+			{"stuid":1006,"stuname":"zb","stuage":25},
+		];
+
+		this.sortStudents = function(isAsc, sortAttr){
+
+			switch(sortAttr){
+				case "stuid":
+					this.students.sort(function(a,b){
+						if(a.stuid >= b.stuid){
+							if(isAsc){
+								return 1;
+							}else{
+								return -1
+							}
+						}else{
+							if(isAsc){
+								return -1;
+							}else{
+								return 1;
+							}
+						}
+					})
+					break;
+				case "stuname":
+					this.students.sort(function(a,b){
+						if(a.stuname.charCodeAt(0) >= b.stuname.charCodeAt(0)){
+							if(isAsc){
+								return 1;
+							}else{
+								return -1
+							}
+						}else{
+							if(isAsc){
+								return -1;
+							}else{
+								return 1;
+							}
+						}
+					})
+					break;
+				case "stuage":
+					this.students.sort(function(a,b){
+						if(a.stuage >= b.stuage){
+							if(isAsc){
+								return 1;
+							}else{
+								return -1
+							}
+						}else{
+							if(isAsc){
+								return -1;
+							}else{
+								return 1;
+							}
+						}
+					})
+					break;
+			}
+
+		}
+
+		this.addStudent = function(student){
+
+			let stuid = this.students[0].stuid;
+			for(item of this.students){
+				if(item.stuid > stuid){
+					stuid = item.stuid;
+				}
+			}
+			student.stuid = ++stuid;
+			let stu = {};
+			for(key in student){
+				stu[key] = student[key];
+			}
+			this.students.push(stu);
+		}
+
+		this.deleteStudent = function(stuid){
+			this.students.splice(this.students.findIndex(item=>item.stuid==stuid),1);
+		}
+
+		this.getStudents = function(){
+			return this.students;
+		}
+
+	}])
+
+</script>
+</html>

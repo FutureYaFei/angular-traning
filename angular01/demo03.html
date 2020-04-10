@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.box{
+			height: 200px;
+			width: 200px;
+			border: 1px solid gray;
+			margin: 20px;
+		}
+	</style>
+</head>
+<body ng-controller="MyContrl as contrl">
+	<div class="box" ng-style="contrl.getColor()"></div>
+	<input type="range" ng-model="contrl.r" min="0" max="255"><input type="number" ng-model="contrl.r" min="0" max="255"><br>
+	<input type="range" ng-model="contrl.g" min="0" max="255"><input type="number" ng-model="contrl.g" min="0" max="255"><br>
+	<input type="range" ng-model="contrl.b" min="0" max="255"><input type="number" ng-model="contrl.b" min="0" max="255"><br>
+</body>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript">
+	
+	var app = angular.module("myapp",[]);
+	app.controller("MyContrl",[function(){
+		this.r = 125;
+		this.g = 125;
+		this.b = 125;
+		
+		this.getColor = function(){
+			return {
+				"backgroundColor":`rgb(${this.r},${this.g},${this.b})`
+			}
+		}
+	}]);
+
+</script>
+</html>

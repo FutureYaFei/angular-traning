@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.comment{
+			height: 150px;
+			width: 150px;
+		}
+	</style>
+</head>
+<body>
+	<div class="box" ng-controller="MyContrl">
+		{{a}}
+		{{getSum()}}
+		<input type="button" value="changeA" ng-click="add()">
+	</div>
+</body>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript">
+	
+	
+	var app = angular.module("myapp",[]);
+	app.controller("MyContrl",["$scope","mathService",function($scope,mathService){
+
+		$scope.a = 10;
+		$scope.add = function(){
+			$scope.a++;
+		}
+
+		$scope.getSum = function(){
+			mathService.add($scope.a,10);
+		}
+
+	}])
+
+	/*app.service()*/
+	/*
+		app.controller
+		app.service
+		app.factory
+		app.provider
+		app.constant
+		app.value
+	*/
+
+
+	app.provider("mathService",[function(){
+
+		var add = function(a,b){
+			console.log(a+b);
+		}
+		return {
+			$get:function(){
+				return {
+					add,
+				}
+			}
+		}
+
+	}])
+
+</script>
+</html>

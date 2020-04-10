@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class="box" ng-controller="MyContrl as contrl">
+		<input type="text" id="txt" ng-model="contrl.a"><span id="show">{{ contrl.a }}</span><br>
+		<input type="button" value="changeA" ng-click="contrl.getNum()">
+		<span>{{contrl.num}}</span>---<span>{{contrl.getNum()}}</span>
+	</div>
+	<div class="box" ng-controller="MyContrl1 as contrl1">
+		{{contrl1.b}}--<span>{{contrl1.getNum()}}</span>
+	</div>
+</body>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript">
+	
+	var app = angular.module("myapp",[]);
+	app.controller("MyContrl",["$http","GetNumService",function($http,GetNumService){
+		this.a = 10;
+		this.changeA = function(){
+			this.a++;
+		}
+		GetNumService.fetchNum();
+
+		this.getNum = function(){
+			return GetNumService.getNum();
+		}
+		
+	}]);
+
+	app.controller("MyContrl1",["GetNumService",function(GetNumService){
+		this.b = 10;
+		this.changeB = function(){
+			this.b++;
+		}
+
+		this.getNum = function(){
+			return GetNumService.getNum();
+		}
+	}]);
+
+	app.service("GetNumService",["$http",function($http){
+		
+		this.num = 0;
+
+		this.getNum = function(){
+			return this.num;
+		}
+
+		this.fetchNum = function(){
+			var _self = this;
+			$http.get("num.json").then(function(res){
+				_self.num = res.data;
+			})
+		}
+
+	}])
+
+
+
+</script>
+</html>

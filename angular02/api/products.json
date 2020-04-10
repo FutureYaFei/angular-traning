@@ -1,0 +1,8 @@
+{
+	"products":[
+		{"name":"轮胎","url":"api/images/1.jpg","price":1500,"amount":0},
+		{"name":"电脑","url":"api/images/2.jpg","price":3000,"amount":0},
+		{"name":"手机","url":"api/images/3.jpg","price":6000,"amount":0},
+		{"name":"牛奶","url":"api/images/4.jpg","price":100,"amount":0}
+	]
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.comment{
+			height: 150px;
+			width: 150px;
+		}
+	</style>
+</head>
+<body>
+	<div class="box" ng-controller="MyContrl">
+		{{a}}
+		{{getCircleArea()}}
+		<input type="button" value="changeA" ng-click="add()">
+	</div>
+</body>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript">
+	
+	
+	var app = angular.module("myapp",[]);
+	app.controller("MyContrl",["$scope","mathConstant",function($scope,mathConstant){
+
+		$scope.a = 10;
+		$scope.add = function(){
+			$scope.a++;
+		}
+
+		$scope.getCircleArea = function(){
+			mathConstant.pi = 3.15;
+			mathConstant.setPi(10);
+			return mathConstant.area($scope.a);
+		}
+
+	}])
+
+	app.constant("mathConstant",{
+		pi:3.14,
+		area:function(r){
+			return this.pi*r*r
+		},
+		setPi:function(newV){
+			this.pi = newV;
+		}
+	})
+
+</script>
+</html>

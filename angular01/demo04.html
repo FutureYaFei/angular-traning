@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class="box" ng-controller="MyContrl as contrl">
+		<input type="text" ng-model="contrl.task" ng-keyup="contrl.addTask($event)">
+		<ul ng-repeat="(index, task) in contrl.todos">
+		    <li>{{task}}<input type="button" value="X" ng-click="contrl.deleteTask(index)"></li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript">
+	
+	var app = angular.module("myapp",[]);
+	app.controller("MyContrl",[function(){
+		this.todos = [];
+		this.task = "";
+		
+		this.addTask = function(e){
+			console.log(e);
+			if(e.keyCode == 13){
+				console.log(this.todos,this.task);
+				if(this.task.trim() === "") return;
+				if(this.todos.findIndex((item)=>item==this.task) == -1){
+					this.todos.push(this.task.trim());
+				}
+				this.task = "";				
+			}
+		}
+
+		this.deleteTask = function(index){
+			this.todos.splice(index,1);
+		}
+	}]);
+
+</script>
+</html>

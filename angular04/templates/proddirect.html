@@ -1,0 +1,11 @@
+<div class="item">
+	<div class="pic">{{item.pic}}</div>
+	<div class="name">{{item.name}}</div>
+	<div class="price">{{item.price}}</div>
+	<div class="count">
+		<input type="button" value="-" ng-click="minus()">
+		{{item.count}}
+		<input type="button" value="+" ng-click="add()">
+	</div>
+	<div class="total">{{getPrice()}}</div>
+</div>

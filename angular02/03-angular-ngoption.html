@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div class="box" ng-controller="MyContrl as contrl">
+		<!-- {{contrl.array | json}}
+		<select ng-model="checkName" ng-options="value as index for (value,index) in contrl.array"></select>
+		{{contrl.checkName | json}} -->
+		{{contrl.city | json}}
+		<!-- <select ng-model="checkName" ng-options="city.cityPhone as city.cityName for city in contrl.citys"></select> -->
+		<select ng-model="checkName" ng-options="key as value for (key,value) in contrl.city"></select>
+		{{contrl.checkName | json}}
+	</div>
+</body>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript">
+	
+	
+	var app = angular.module("myapp",[]);
+	app.controller("MyContrl",[function(){
+		this.checkName = [];
+		this.array = ["zs","lis","ww"];
+
+		this.citys = [
+
+			{"cityPhone":"010","cityName":"北京"},
+			{"cityPhone":"021","cityName":"上海"},
+			{"cityPhone":"023","cityName":"重庆"}
+
+		]
+
+		this.city = {
+			"010":"北京",
+			"021":"上海",
+			"023":"重庆"
+		}
+	}])
+
+</script>
+</html>

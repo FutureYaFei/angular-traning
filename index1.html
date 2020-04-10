@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+	<input type="text" id="txt"><span id="show"></span>
+	
+</body>
+<script type="text/javascript">
+
+	var inputTxt = document.getElementById("txt");
+	var showSpan = document.getElementById("show");
+
+	inputTxt.onkeyup = function(){
+		model.txt = this.value;
+	}
+	
+	let model = {
+		txt:"",
+	}
+
+	var value = "";
+
+	//Observer
+	Object.defineProperty(model,"txt",{
+
+		set:function(newValue){
+			inputTxt.value = newValue;
+			showSpan.innerText = newValue;
+			value = newValue;
+		},
+
+		get:function(){
+			return value;
+		}
+
+	})
+
+</script>
+</html>

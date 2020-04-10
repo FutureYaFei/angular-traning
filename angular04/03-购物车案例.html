@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.box{
+			height: 100px;
+			width: 100px;
+			border: 1px gray solid;
+		}
+	</style>
+</head>
+<body>
+	<div ng-controller="MyContrl">
+		{{getProducts()|json}}
+		<hr>
+		<prod-direct item="item" ng-repeat="item in getProducts()"></prod-direct>
+	</div>
+</body>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript">
+	var app = angular.module("myapp",[]);
+
+	app.controller("MyContrl",["$scope","ProdService",function($scope,ProdService){
+
+		$scope.getProducts = function(){
+			return ProdService.getProducts();
+		}
+
+	}]);
+
+	app.service("ProdService",["$http",function($http){
+
+		this.products = [];
+
+		this.getProducts = function(){
+			return this.products;
+		}
+
+		this.getProductsFromServer = function(){
+			$http.get("./api/products.json").then(res=>{
+				this.products = res.data.products;
+			})
+		}
+
+		this.getProductsFromServer();
+
+	}])
+
+	app.directive("prodDirect",[function(){
+
+		return {
+			scope:{
+				item: "="
+			},
+			templateUrl: "templates/proddirect.html",
+			link: function($scope,ele,attr){
+				$scope.minus = function(){
+					if($scope.item.count <= 0) return;
+					$scope.item.count--
+				}
+
+				$scope.add = function(){
+					$scope.item.count++
+				}
+
+				$scope.getPrice = function(){
+					return $scope.item.count * $scope.item.price;
+				}
+			}
+		}
+
+	}])
+
+
+	
+
+</script>
+</html>

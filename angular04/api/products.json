@@ -1,0 +1,10 @@
+{
+	"products":[
+		{"pic":"images/pc.jpg","name":"pc","price":3500,"count":0},
+		{"pic":"images/pc.jpg","name":"pc","price":3500,"count":0},
+		{"pic":"images/pc.jpg","name":"pc","price":3500,"count":0},
+		{"pic":"images/pc.jpg","name":"pc","price":3500,"count":0},
+		{"pic":"images/pc.jpg","name":"pc","price":3500,"count":0},
+		{"pic":"images/pc.jpg","name":"pc","price":3500,"count":0}
+	]
+}

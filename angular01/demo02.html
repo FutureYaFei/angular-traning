@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class="box" ng-controller="MyContrl as contrl">
+		<ul ng-repeat="item in contrl.array">
+		    <li>{{item}}</li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript">
+	
+	var app = angular.module("myapp",[]);
+	app.controller("MyContrl",[function(){
+		this.array = [1,2,3,4,5];
+		
+		
+	}]);
+
+</script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.box{
+			height: 100px;
+			width: 100px;
+			border: 1px gray solid;
+		}
+	</style>
+</head>
+<body>
+	<div ng-controller="MyContrl">
+		<div class="box" ng-style="getBGColor()"></div>
+		<range-bar ng-model="colors.r"></range-bar>
+		<range-bar ng-model="colors.g"></range-bar>
+		<range-bar ng-model="colors.b"></range-bar>
+		<!-- <range-bar colors="colors" color="r"></range-bar>
+		<range-bar colors="colors" color="g"></range-bar>
+		<range-bar colors="colors" color="b"></range-bar> -->
+	</div>
+</body>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript">
+	var app = angular.module("myapp",[]);
+
+	app.controller("MyContrl",["$scope",function($scope){
+
+		$scope.colors = {
+			r:125,
+			g:125,
+			b:125
+		};
+
+		$scope.getBGColor = function(){
+			return {
+				"backgroundColor": `rgb(${$scope.colors.r},${$scope.colors.g},${$scope.colors.b})`
+			}
+		}
+
+	}])
+
+
+	app.directive("rangeBar",[function(){
+
+		return {
+			scope:{
+				ngModel: "="
+				/*colors: "=",
+				color: "@"*/
+			},
+			templateUrl: "templates/rangebar.html",
+			link: function($scope,ele,attr){
+
+			}
+		}
+
+	}])
+
+	
+
+</script>
+</html>
