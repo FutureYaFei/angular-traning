@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+	<a ui-sref="hello">Hello</a>
+	<a ui-sref="world">World</a>
+	<a ui-sref="students">Students</a>
+
+	<ui-view></ui-view>
+
+</body>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+<script type="text/javascript">
+	
+	var app = angular.module("myapp",["ui.router"]);
+
+	app.config(function($stateProvider){
+
+		$stateProvider.state({
+			name:"hello",
+			url:"/hello",
+			templateUrl:"views/hello.html"
+		}).state({
+			name:"world",
+			url:"/world",
+			templateUrl:"views/world.html"
+		}).state({
+			name:"hello.test",
+			url:"/test",
+			templateUrl:"views/test.html"
+		}).state({
+			name:"students",
+			url:"/students",
+			component:"students",
+			resolve:{
+				students:function(StuService){
+					console.log(StuService.getStudents());
+					return StuService.getStudents();
+				}
+			}
+		}).state({
+			name:"students.student",
+			url:"/student/{id}",
+			component:"student",
+			resolve:{
+				student:function(students,$stateParams){
+					return students.find(function(item){
+						return item.id == $stateParams.id;
+					})
+				}
+			}
+		})
+
+	})
+
+	app.component("students",{
+		 bindings: { students: '<' },
+		 templateUrl: "views/students.html"
+	})
+
+	app.component("student",{
+		 bindings: { student: '<' },
+		 templateUrl: "views/student.html"
+	})
+
+	app.service("StuService",["$http",function($http){
+
+		this.students = [];
+		this.getStudents = function(){
+			console.log(this.students);
+			return this.students;
+		}
+
+		$http.get("api/students.json").then(res=>{
+			this.students = res.data.students;
+		}).catch(exp=>{
+			console.error(exp);
+		})
+
+	}])
+
+</script>
+</html>

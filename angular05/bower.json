@@ -1,0 +1,21 @@
+{
+  "name": "angular05",
+  "authors": [
+    "yafeishen <953811664@qq.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "1",
+    "angular-ui-router": "^1.0.25"
+  }
+}
